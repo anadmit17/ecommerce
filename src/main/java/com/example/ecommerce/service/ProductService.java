@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.exception.ProductNotFoundException;
 import com.example.ecommerce.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,8 @@ public class ProductService {
                 return product;
             }
         }
-        return null;
+
+        throw new ProductNotFoundException(id);
     }
 
     public Product createProduct(Product product) {
@@ -36,13 +38,15 @@ public class ProductService {
         return product;
     }
 
-    public boolean deleteProduct(Long id) {
-        for (Product product : products) {
-            if (product.getId().equals(id)) {
-                products.remove(product);
-                return true;
-            }
-        }
-        return false;
+    public void deleteProduct(Long id) {
+        Product product = getProductById(id);
+        products.remove(product);
+    }
+
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product product = getProductById(id);
+        product.setName(updatedProduct.getName());
+        product.setPrice(updatedProduct.getPrice());
+        return product;
     }
 }
