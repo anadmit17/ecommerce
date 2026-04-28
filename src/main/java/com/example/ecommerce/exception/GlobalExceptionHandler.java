@@ -3,6 +3,7 @@ package com.example.ecommerce.exception;
 import com.example.ecommerce.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,5 +32,21 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .get(0)
+                .getDefaultMessage();
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                message,
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
