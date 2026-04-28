@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.exception.ProductNotFoundException;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
@@ -25,7 +26,11 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(ProductRequest request) {
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+
         return productRepository.save(product);
     }
 
@@ -34,11 +39,11 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public Product updateProduct(Long id, Product updatedProduct) {
+    public Product updateProduct(Long id, ProductRequest request) {
         Product product = getProductById(id);
 
-        product.setName(updatedProduct.getName());
-        product.setPrice(updatedProduct.getPrice());
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
 
         return productRepository.save(product);
     }
