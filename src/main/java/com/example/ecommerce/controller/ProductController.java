@@ -5,6 +5,9 @@ import com.example.ecommerce.dto.ProductResponse;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +33,15 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts(
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
-        List<ProductResponse> products = productService.getProductsByName(name)
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Product> productPage = productService.getProducts(name, pageable);
+
+        List<ProductResponse> products = productPage
                 .stream()
                 .map(this::toResponse)
                 .toList();

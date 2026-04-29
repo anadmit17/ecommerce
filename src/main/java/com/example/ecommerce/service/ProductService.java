@@ -4,6 +4,8 @@ import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.exception.ProductNotFoundException;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,11 +50,19 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getProductsByName(String name) {
+    public List<Product> getProducts(String name) {
         if (name != null && !name.isBlank()) {
             return productRepository.findByNameContainingIgnoreCase(name);
         }
 
-        return productRepository.findAll();
+        return getAllProducts();
+    }
+
+    public Page<Product> getProducts(String name, Pageable pageable) {
+        if (name != null && !name.isBlank()) {
+            return productRepository.findByNameContainingIgnoreCase(name, pageable);
+        }
+
+        return productRepository.findAll(pageable);
     }
 }
