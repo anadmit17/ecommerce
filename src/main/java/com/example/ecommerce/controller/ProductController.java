@@ -29,8 +29,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        List<ProductResponse> products = productService.getAllProducts()
+    public ResponseEntity<List<ProductResponse>> getAllProducts(
+            @RequestParam(required = false) String name
+    ) {
+        List<ProductResponse> products = productService.getProductsByName(name)
                 .stream()
                 .map(this::toResponse)
                 .toList();
