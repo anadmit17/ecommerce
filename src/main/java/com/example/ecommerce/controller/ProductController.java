@@ -2,6 +2,7 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.dto.ProductResponse;
+import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
@@ -25,10 +26,14 @@ public class ProductController {
     }
 
     private ProductResponse toResponse(Product product) {
+        Category category = product.getCategory();
+
         return new ProductResponse(
                 product.getId(),
                 product.getName(),
-                product.getPrice()
+                product.getPrice(),
+                category != null ? category.getId() : null,
+                category != null ? category.getName() : null
         );
     }
 

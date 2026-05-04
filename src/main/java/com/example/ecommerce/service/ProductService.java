@@ -1,8 +1,11 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.dto.ProductRequest;
+import com.example.ecommerce.exception.CategoryNotFoundException;
 import com.example.ecommerce.exception.ProductNotFoundException;
+import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
+import com.example.ecommerce.repository.CategoryRepository;
 import com.example.ecommerce.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +18,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Product> getAllProducts() {
@@ -32,6 +38,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        product.setCategory(getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
     }
@@ -46,6 +53,7 @@ public class ProductService {
 
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        product.setCategory(getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
     }
@@ -64,5 +72,10 @@ public class ProductService {
         }
 
         return productRepository.findAll(pageable);
+    }
+
+    private Category getCategoryById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
     }
 }
