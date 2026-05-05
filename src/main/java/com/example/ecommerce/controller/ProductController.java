@@ -40,6 +40,9 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts(
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Long categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "name") String sortBy,
@@ -48,7 +51,13 @@ public class ProductController {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Product> productPage = productService.getProducts(name, pageable);
+        Page<Product> productPage = productService.getProducts(
+                name,
+                minPrice,
+                maxPrice,
+                categoryId,
+                pageable
+        );
 
         List<ProductResponse> products = productPage
                 .stream()

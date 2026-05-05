@@ -1,14 +1,13 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.dto.ProductRequest;
-import com.example.ecommerce.exception.CategoryNotFoundException;
 import com.example.ecommerce.exception.ProductNotFoundException;
-import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
-import com.example.ecommerce.repository.CategoryRepository;
 import com.example.ecommerce.repository.ProductRepository;
+import com.example.ecommerce.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +17,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     public List<Product> getAllProducts() {
@@ -38,7 +37,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
-        product.setCategory(getCategoryById(request.getCategoryId()));
+        product.setCategory(categoryService.getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
     }
@@ -53,29 +52,24 @@ public class ProductService {
 
         product.setName(request.getName());
         product.setPrice(request.getPrice());
-        product.setCategory(getCategoryById(request.getCategoryId()));
+        product.setCategory(categoryService.getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
     }
 
-    public List<Product> getProducts(String name) {
-        if (name != null && !name.isBlank()) {
-            return productRepository.findByNameContainingIgnoreCase(name);
-        }
+    public Page<Product> getProducts(
+            String name,
+            Double minPrice,
+            Double maxPrice,
+            Long categoryId,
+            Pageable pageable
+    ) {
+        Specification<Product> specification = Specification
+                .where(ProductSpecification.hasName(name))
+                .and(ProductSpecification.hasMinPrice(minPrice))
+                .and(ProductSpecification.hasMaxPrice(maxPrice))
+                .and(ProductSpecification.hasCategoryId(categoryId));
 
-        return getAllProducts();
-    }
-
-    public Page<Product> getProducts(String name, Pageable pageable) {
-        if (name != null && !name.isBlank()) {
-            return productRepository.findByNameContainingIgnoreCase(name, pageable);
-        }
-
-        return productRepository.findAll(pageable);
-    }
-
-    private Category getCategoryById(Long id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(id));
+        return productRepository.findAll(specification, pageable);
     }
 }
