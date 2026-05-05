@@ -32,6 +32,7 @@ public class ProductController {
                 product.getId(),
                 product.getName(),
                 product.getPrice(),
+                product.getStockQuantity(),
                 category != null ? category.getId() : null,
                 category != null ? category.getName() : null
         );

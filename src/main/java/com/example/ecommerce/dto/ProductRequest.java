@@ -1,8 +1,6 @@
 package com.example.ecommerce.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 public class ProductRequest {
     @NotBlank(message = "Product name is required")
@@ -10,6 +8,9 @@ public class ProductRequest {
 
     @Positive(message = "Product price must be greater than 0")
     private double price;
+
+    @PositiveOrZero(message = "Stock quantity must be zero or greater")
+    private int stockQuantity;
 
     @NotNull(message = "Category id is required")
     private Long categoryId;
@@ -31,6 +32,14 @@ public class ProductRequest {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public Long getCategoryId() {

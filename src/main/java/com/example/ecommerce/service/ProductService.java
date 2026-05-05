@@ -31,6 +31,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
         product.setCategory(categoryService.getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
@@ -46,6 +47,7 @@ public class ProductService {
 
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
         product.setCategory(categoryService.getCategoryById(request.getCategoryId()));
 
         return productRepository.save(product);
