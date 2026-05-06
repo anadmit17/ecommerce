@@ -1,9 +1,9 @@
-package com.example.ecommerce.service;
+package com.example.productservice.service;
 
-import com.example.ecommerce.dto.CategoryRequest;
-import com.example.ecommerce.exception.CategoryNotFoundException;
-import com.example.ecommerce.model.Category;
-import com.example.ecommerce.repository.CategoryRepository;
+import com.example.productservice.dto.CategoryRequest;
+import com.example.productservice.exception.CategoryNotFoundException;
+import com.example.productservice.model.Category;
+import com.example.productservice.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

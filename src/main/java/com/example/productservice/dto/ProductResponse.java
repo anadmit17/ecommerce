@@ -1,4 +1,4 @@
-package com.example.ecommerce.dto;
+package com.example.productservice.dto;
 
 public class ProductResponse {
     private Long id;

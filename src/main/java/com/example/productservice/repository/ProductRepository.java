@@ -1,6 +1,6 @@
-package com.example.ecommerce.repository;
+package com.example.productservice.repository;
 
-import com.example.ecommerce.model.Product;
+import com.example.productservice.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

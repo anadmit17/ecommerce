@@ -1,10 +1,10 @@
-package com.example.ecommerce.service;
+package com.example.productservice.service;
 
-import com.example.ecommerce.dto.ProductRequest;
-import com.example.ecommerce.exception.ProductNotFoundException;
-import com.example.ecommerce.model.Product;
-import com.example.ecommerce.repository.ProductRepository;
-import com.example.ecommerce.specification.ProductSpecification;
+import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.exception.ProductNotFoundException;
+import com.example.productservice.model.Product;
+import com.example.productservice.repository.ProductRepository;
+import com.example.productservice.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

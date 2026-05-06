@@ -1,6 +1,6 @@
-package com.example.ecommerce.specification;
+package com.example.productservice.specification;
 
-import com.example.ecommerce.model.Product;
+import com.example.productservice.model.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {

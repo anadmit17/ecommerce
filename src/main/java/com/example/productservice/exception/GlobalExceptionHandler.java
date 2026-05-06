@@ -1,6 +1,6 @@
-package com.example.ecommerce.exception;
+package com.example.productservice.exception;
 
-import com.example.ecommerce.dto.ErrorResponse;
+import com.example.productservice.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

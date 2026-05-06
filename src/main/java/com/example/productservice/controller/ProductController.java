@@ -1,10 +1,10 @@
-package com.example.ecommerce.controller;
+package com.example.productservice.controller;
 
-import com.example.ecommerce.dto.ProductRequest;
-import com.example.ecommerce.dto.ProductResponse;
-import com.example.ecommerce.model.Category;
-import com.example.ecommerce.model.Product;
-import com.example.ecommerce.service.ProductService;
+import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.dto.ProductResponse;
+import com.example.productservice.model.Category;
+import com.example.productservice.model.Product;
+import com.example.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
