@@ -14,9 +14,9 @@ public class OrderItem {
 
     private String productName;
 
-    private Double price;
-
     private Integer quantity;
+
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
@@ -28,14 +28,14 @@ public class OrderItem {
     public OrderItem(
             Long productId,
             String productName,
-            Double price,
             Integer quantity,
+            Double price,
             Order order
     ) {
         this.productId = productId;
         this.productName = productName;
-        this.price = price;
         this.quantity = quantity;
+        this.price = price;
         this.order = order;
     }
 
@@ -51,12 +51,12 @@ public class OrderItem {
         return productName;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public Double getPrice() {
+        return price;
     }
 
     public Order getOrder() {
