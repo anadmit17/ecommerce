@@ -2,6 +2,7 @@ package com.example.orderservice.service;
 
 import com.example.orderservice.dto.OrderRequest;
 import com.example.orderservice.dto.ProductResponse;
+import com.example.orderservice.exception.NotEnoughStockException;
 import com.example.orderservice.exception.OrderNotFoundException;
 import com.example.orderservice.exception.OrderStatusNotFoundException;
 import com.example.orderservice.model.Order;
@@ -45,6 +46,10 @@ public class OrderService {
                             .uri(productServiceUrl + "/products/" + itemRequest.getProductId())
                             .retrieve()
                             .body(ProductResponse.class);
+
+                    if (itemRequest.getQuantity() > productResponse.getStockQuantity()) {
+                        throw new NotEnoughStockException(productResponse.getId());
+                    }
 
                     OrderItem orderItem = new OrderItem();
                     orderItem.setProductId(productResponse.getId());
