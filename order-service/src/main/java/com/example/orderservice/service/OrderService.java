@@ -12,6 +12,8 @@ import com.example.orderservice.model.OrderStatus;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.repository.OrderStatusRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -93,7 +95,7 @@ public class OrderService {
                 .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    public Page<Order> getOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 }
