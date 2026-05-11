@@ -1,5 +1,9 @@
 server:
-  port: 8082
+  port: 8081
+
+services:
+  product-service:
+    url: http://localhost:8080
 
 spring:
   application:
