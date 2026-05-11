@@ -21,6 +21,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(OrderStatusNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleOrderStatusNotFound(OrderStatusNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
     @ExceptionHandler(NotEnoughStockException.class)
     public ResponseEntity<ErrorResponse> handleNotEnoughStock(NotEnoughStockException ex) {
         ErrorResponse errorResponse = new ErrorResponse(

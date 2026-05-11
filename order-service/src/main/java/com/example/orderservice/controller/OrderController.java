@@ -1,9 +1,6 @@
 package com.example.orderservice.controller;
 
-import com.example.orderservice.dto.OrderItemResponse;
-import com.example.orderservice.dto.OrderRequest;
-import com.example.orderservice.dto.OrderResponse;
-import com.example.orderservice.dto.OrderStatusResponse;
+import com.example.orderservice.dto.*;
 import com.example.orderservice.model.Order;
 import com.example.orderservice.model.OrderItem;
 import com.example.orderservice.model.OrderStatus;
@@ -90,5 +87,14 @@ public class OrderController {
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
         return ResponseEntity.ok(toResponse(order));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<OrderResponse> updateOrderStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody OrderStatusRequest statusRequest
+    ) {
+        Order updatedOrder = orderService.updateOrderStatus(id, statusRequest);
+        return ResponseEntity.ok(toResponse(updatedOrder));
     }
 }

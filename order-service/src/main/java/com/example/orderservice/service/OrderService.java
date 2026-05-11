@@ -1,6 +1,7 @@
 package com.example.orderservice.service;
 
 import com.example.orderservice.dto.OrderRequest;
+import com.example.orderservice.dto.OrderStatusRequest;
 import com.example.orderservice.dto.ProductResponse;
 import com.example.orderservice.dto.QuantityRequest;
 import com.example.orderservice.exception.NotEnoughStockException;
@@ -97,5 +98,19 @@ public class OrderService {
 
     public Page<Order> getOrders(Pageable pageable) {
         return orderRepository.findAll(pageable);
+    }
+
+    public Order updateOrderStatus(
+            Long orderId,
+            OrderStatusRequest statusRequest
+    ) {
+        Order order = getOrderById(orderId);
+
+        OrderStatus status = orderStatusRepository.findByName(statusRequest.getName())
+                .orElseThrow(() -> new OrderStatusNotFoundException(statusRequest.getName()));
+
+        order.setOrderStatus(status);
+
+        return orderRepository.save(order);
     }
 }
