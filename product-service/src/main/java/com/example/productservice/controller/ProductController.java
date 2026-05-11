@@ -2,6 +2,7 @@ package com.example.productservice.controller;
 
 import com.example.productservice.dto.ProductRequest;
 import com.example.productservice.dto.ProductResponse;
+import com.example.productservice.dto.QuantityRequest;
 import com.example.productservice.model.Category;
 import com.example.productservice.model.Product;
 import com.example.productservice.service.ProductService;
@@ -93,5 +94,23 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/stock/decrease")
+    public ResponseEntity<ProductResponse> decreaseStockQuantity(
+            @PathVariable Long id,
+            @RequestBody QuantityRequest quantityRequest
+    ) {
+        Product updatedProduct = productService.decreaseStockQuantity(id, quantityRequest);
+        return ResponseEntity.ok(toResponse(updatedProduct));
+    }
+
+    @PatchMapping("/{id}/stock/increase")
+    public ResponseEntity<ProductResponse> increaseStockQuantity(
+            @PathVariable Long id,
+            @RequestBody QuantityRequest quantityRequest
+    ) {
+        Product updatedProduct = productService.increaseStockQuantity(id, quantityRequest);
+        return ResponseEntity.ok(toResponse(updatedProduct));
     }
 }

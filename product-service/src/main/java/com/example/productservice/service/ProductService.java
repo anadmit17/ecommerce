@@ -1,6 +1,8 @@
 package com.example.productservice.service;
 
 import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.dto.QuantityRequest;
+import com.example.productservice.exception.NotEnoughStockException;
 import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.model.Product;
 import com.example.productservice.repository.ProductRepository;
@@ -67,5 +69,33 @@ public class ProductService {
                 .and(ProductSpecification.hasCategoryId(categoryId));
 
         return productRepository.findAll(specification, pageable);
+    }
+
+    public Product decreaseStockQuantity(
+            Long id,
+            QuantityRequest quantityRequest
+    ) {
+        return updateStock(id, -quantityRequest.getQuantity());
+    }
+
+    public Product increaseStockQuantity(
+            Long id,
+            QuantityRequest quantityRequest
+    ) {
+        return updateStock(id, quantityRequest.getQuantity());
+    }
+
+    private Product updateStock(Long id, int delta) {
+        Product product = getProductById(id);
+
+        int updatedStock = product.getStockQuantity() + delta;
+
+        if (updatedStock < 0) {
+            throw new NotEnoughStockException(id);
+        }
+
+        product.setStockQuantity(updatedStock);
+
+        return productRepository.save(product);
     }
 }
